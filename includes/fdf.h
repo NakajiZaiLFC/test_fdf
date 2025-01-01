@@ -43,7 +43,6 @@ typedef struct	s_fdf
 	void		*win_ptr;
 	t_img		*img;
 	t_map		map;
-	t_point		**points;
 }				t_fdf;
 
 bool fdf_init(int ac, char *av[], t_fdf *fdf);
@@ -53,5 +52,4 @@ void free_split(char **split);
 int ft_atoi_base(char *str, int base);
 int ft_strlncmp(char *s1, char *s2, int n);
 bool make_mlx_window(t_fdf *fdf);
-bool fdf_draw(t_fdf *fdf);
 #endif
