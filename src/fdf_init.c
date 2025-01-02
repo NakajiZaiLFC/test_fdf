@@ -6,7 +6,7 @@
 /*   By: snakajim <snakajim@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/01 15:48:23 by snakajim          #+#    #+#             */
-/*   Updated: 2025/01/02 17:57:29 by snakajim         ###   ########.fr       */
+/*   Updated: 2025/01/02 20:20:11 by snakajim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,16 +24,7 @@ bool	fdf_init(int ac, char *av[], t_fdf *fdf)
 	if (open(av[1], O_RDONLY) < 0)
 		return (ft_printf("Error: can't read fdf file\n"), false);
 	if (!_create_map(av[1], fdf))
-		return (false);
-	if (!make_mlx_window(fdf))
-		return (false);
-	// for (int i = 0; i < fdf->map.height; i++)
-	// {
-	// 	for (int j = 0; j < fdf->map.width; j++)
-	// 		printf("x: %d, y: %d, z: %d, color: %d\n", fdf->map.points[i][j].x,
-	// 			fdf->map.points[i][j].y, fdf->map.points[i][j].z,
-	// 			fdf->map.points[i][j].color);
-	// }
+		return (ft_printf("Error: can't mapping\n"), false);
 	return (true);
 }
 
@@ -44,6 +35,7 @@ static bool	_create_map(char *file_name, t_fdf *fdf)
 	i = 0;
 	if (!_get_map_size(file_name, &fdf->map.width, &fdf->map.height))
 		return (false);
+	printf("test\n");
 	fdf->map.points = (t_point **)malloc(sizeof(t_point *) * fdf->map.height
 			+ 1);
 	if (!fdf->map.points)
@@ -53,16 +45,11 @@ static bool	_create_map(char *file_name, t_fdf *fdf)
 		fdf->map.points[i] = (t_point *)malloc(sizeof(t_point)
 				* fdf->map.width);
 		if (!fdf->map.points[i])
-		{
-			while (i >= 0)
-				free(fdf->map.points[i--]);
-			free(fdf->map.points);
-			return (false);
-		}
+			return (err_fdf_free(fdf), false);
 		i++;
 	}
 	if (!set_points_info(file_name, &fdf->map))
-		return (false);
+		return (err_fdf_free(fdf), false);
 	return (true);
 }
 
@@ -75,7 +62,7 @@ static int	_count_width(char *line)
 	split_line = ft_split(line, ' ');
 	if (!split_line)
 		return (0);
-	while (split_line[width])
+	while (split_line[width] != NULL)
 		width++;
 	free_split(split_line);
 	return (width);
@@ -96,6 +83,12 @@ static bool	_get_map_size(char *file_name, int *width, int *height)
 	{
 		if (*width == 0)
 			*width = _count_width(line);
+		else if (*width != _count_width(line))
+		{
+			free(line);
+			close(fd);
+			return (false);
+		}
 		(*height)++;
 		free(line);
 		line = get_next_line(fd);

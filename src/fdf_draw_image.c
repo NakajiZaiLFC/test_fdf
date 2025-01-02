@@ -6,7 +6,7 @@
 /*   By: snakajim <snakajim@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/02 15:44:47 by snakajim          #+#    #+#             */
-/*   Updated: 2025/01/02 18:04:20 by snakajim         ###   ########.fr       */
+/*   Updated: 2025/01/02 19:40:30 by snakajim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,10 +73,6 @@ bool	fdf_draw(t_fdf *fdf)
 		x = 0;
 		while (x < fdf->map.width)
 		{
-			printf("width: %d, height: %d\n", fdf->map.width, fdf->map.height);
-			// debug
-			printf("x: %d, y: %d\n", x, y);
-			// debug
 			p0 = iso_projection(x, y, fdf->map.points[y][x].z, fdf);
 			if (x < fdf->map.width - 1)
 			{

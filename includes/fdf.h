@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   fdf.h                                              :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: snakajim <snakajim@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/01/02 20:19:31 by snakajim          #+#    #+#             */
+/*   Updated: 2025/01/02 20:19:32 by snakajim         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef FDF_H
 # define FDF_H
 
@@ -78,5 +90,6 @@ t_point		iso_projection(int x, int y, int z, t_fdf *fdf);
 void		fdf_free(t_fdf *fdf);
 void		my_mlx_pixel_put(t_img *img, int x, int y, int color);
 void		draw_line_to_image(t_img *img, t_point p0, t_point p1, int color);
-
+void		mlx_free(t_fdf *fdf);
+void		err_fdf_free(t_fdf *fdf);
 #endif
