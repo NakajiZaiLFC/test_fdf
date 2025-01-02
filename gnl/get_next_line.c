@@ -6,11 +6,11 @@
 /*   By: snakajim <snakajim@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/19 11:01:12 by snakajim          #+#    #+#             */
-/*   Updated: 2024/07/31 14:21:58 by snakajim         ###   ########.fr       */
+/*   Updated: 2025/01/02 12:04:51 by snakajim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
+#include "../includes/get_next_line.h"
 
 char	*str_free(t_string ret);
 

@@ -6,7 +6,7 @@
 /*   By: snakajim <snakajim@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/01 15:37:58 by snakajim          #+#    #+#             */
-/*   Updated: 2025/01/01 20:58:45 by snakajim         ###   ########.fr       */
+/*   Updated: 2025/01/02 13:14:29 by snakajim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,17 +15,18 @@
 t_point	iso_projection(int x, int y, int z)
 {
 	t_point	p;
+	double	scale;
 
-	// スケールを先に適用
-	x *= SCALE;
-	y *= SCALE;
-	z *= SCALE;
-	// 等角投影の計算
+	scale = SCALE;
+	x *= scale;
+	y *= scale;
+	z *= scale;
+	// より正確な等角投影の計算
 	p.x = (x - y) * cos(ISO_ANGLE_X);
 	p.y = (x + y) * sin(ISO_ANGLE_Y) - z;
-	// 画面中央に移動
-	p.x += 500; // ウィンドウの中心にオフセット
-	p.y += 300;
+	// ウィンドウの中心に配置（値は調整が必要かもしれません）
+	p.x += 1920 / 2;
+	p.y += 1080 / 2;
 	return (p);
 }
 bool	fdf_draw(t_fdf *fdf)
@@ -35,6 +36,21 @@ bool	fdf_draw(t_fdf *fdf)
 	t_point	p0;
 	t_point	p1;
 
+	// 最初にチェックと初期化を行う
+	if (!fdf->mlx_ptr || !fdf->win_ptr)
+		return (false);
+	// 既存のイメージを破棄
+	if (fdf->img.img_ptr)
+		mlx_destroy_image(fdf->mlx_ptr, fdf->img.img_ptr);
+	// 新しいイメージを作成
+	fdf->img.img_ptr = mlx_new_image(fdf->mlx_ptr, fdf->win_width,
+			fdf->win_height);
+	if (!fdf->img.img_ptr)
+		return (false);
+	fdf->img.addr = mlx_get_data_addr(fdf->img.img_ptr, &fdf->img.bpp,
+			&fdf->img.size_line, &fdf->img.endian);
+	if (!fdf->img.addr)
+		return (false);
 	// メモリクリアの修正（imgはポインタではない）
 	memset(fdf->img.addr, 0, fdf->img.size_line * fdf->win_height);
 	y = 0;

@@ -6,7 +6,7 @@
 /*   By: snakajim <snakajim@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/01 15:48:28 by snakajim          #+#    #+#             */
-/*   Updated: 2025/01/01 15:48:29 by snakajim         ###   ########.fr       */
+/*   Updated: 2025/01/02 13:39:51 by snakajim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,13 +24,22 @@ void	free_split(char **split)
 
 void	fdf_free(t_fdf *fdf)
 {
-	int i;
+	int	i;
 
+	if (!fdf)
+		return ;
 	i = 0;
 	if (fdf->map.points)
 	{
-		while (fdf->map.points[i])
-			free(fdf->map.points[i++]);
+		while (i < fdf->map.height)
+		{
+			if (fdf->map.points[i])
+				free(fdf->map.points[i]);
+			i++;
+		}
 		free(fdf->map.points);
 	}
+	if (fdf->mlx_ptr)
+		free(fdf->mlx_ptr);
+	free(fdf);
 }

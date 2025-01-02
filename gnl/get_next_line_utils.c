@@ -6,11 +6,11 @@
 /*   By: snakajim <snakajim@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/19 11:01:07 by snakajim          #+#    #+#             */
-/*   Updated: 2024/07/26 16:16:55 by snakajim         ###   ########.fr       */
+/*   Updated: 2025/01/02 12:04:55 by snakajim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
+#include "../includes/get_next_line.h"
 
 int	ft_getc(int fd)
 {

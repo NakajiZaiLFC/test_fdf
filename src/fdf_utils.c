@@ -6,7 +6,7 @@
 /*   By: snakajim <snakajim@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/01 15:48:32 by snakajim          #+#    #+#             */
-/*   Updated: 2025/01/01 17:04:42 by snakajim         ###   ########.fr       */
+/*   Updated: 2025/01/02 12:59:34 by snakajim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,8 @@ int	ft_strlncmp(char *s1, char *s2, int n)
 
 	i = 0;
 	s1_tmp = (char *)malloc(sizeof(char) * (n + 1));
+	if (!s1_tmp)
+		return (-1);
 	s1_len = ft_strlen(s1);
 	while (i < 4)
 	{
@@ -27,9 +29,9 @@ int	ft_strlncmp(char *s1, char *s2, int n)
 		i++;
 	}
 	if (ft_strncmp(s1_tmp, s2, n) == 0)
-		return (0);
+		return (free(s1_tmp), 0);
 	else
-		return (1);
+		return (free(s1_tmp), -1);
 }
 
 int	ft_atoi_base(char *str, int base)

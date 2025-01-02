@@ -6,7 +6,7 @@
 /*   By: snakajim <snakajim@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/01 15:48:50 by snakajim          #+#    #+#             */
-/*   Updated: 2025/01/01 20:34:45 by snakajim         ###   ########.fr       */
+/*   Updated: 2025/01/02 13:38:49 by snakajim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,24 +14,19 @@
 
 bool	make_mlx_window(t_fdf *fdf)
 {
-	void	*mlx;
-	void	*win;
-	void	*img;
-
 	fdf->win_width = 1920;
 	fdf->win_height = 1080;
-	mlx = mlx_init();
-	if (!mlx)
+	fdf->mlx_ptr = mlx_init();
+	if (!fdf->mlx_ptr)
 		return (false);
-	fdf->mlx_ptr = mlx;
-	win = mlx_new_window(mlx, fdf->win_width, fdf->win_height, "FDF Test");
-	if (!win)
+	fdf->win_ptr = mlx_new_window(fdf->mlx_ptr, fdf->win_width, fdf->win_height,
+			"FDF Test");
+	if (!fdf->win_ptr)
 		return (false);
-	fdf->win_ptr = win;
-	img = mlx_new_image(mlx, fdf->win_width, fdf->win_height);
-	if (!img)
+	fdf->img.img_ptr = mlx_new_image(fdf->mlx_ptr, fdf->win_width,
+			fdf->win_height);
+	if (!fdf->img.img_ptr)
 		return (false);
-	fdf->img.img_ptr = img;
 	fdf->img.addr = mlx_get_data_addr(fdf->img.img_ptr, &fdf->img.bpp,
 			&fdf->img.size_line, &fdf->img.endian);
 	if (!fdf->img.addr)
