@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   fdf_draw.c                                         :+:      :+:    :+:   */
+/*   fdf_draw_image.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: snakajim <snakajim@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/01/01 15:37:58 by snakajim          #+#    #+#             */
-/*   Updated: 2025/01/02 17:58:13 by snakajim         ###   ########.fr       */
+/*   Created: 2025/01/02 15:44:47 by snakajim          #+#    #+#             */
+/*   Updated: 2025/01/02 18:04:20 by snakajim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,23 +16,37 @@ t_point	iso_projection(int x, int y, int z, t_fdf *fdf)
 {
 	t_point	p;
 	double	scale;
+	double	projected_x;
+	double	projected_y;
 
-	// マップサイズに基づいて自動スケーリング
-	scale = fmin((fdf->win_width / (fdf->map.width * 2.0)), (fdf->win_height
-				/ (fdf->map.height * 2.0)));
-	// 座標変換
-	x = (x - fdf->map.width / 2.0) * scale;
-	y = (y - fdf->map.height / 2.0) * scale;
-	z = z * (scale * 0.5); // z軸は通常の半分のスケール
+	double angle_x = M_PI / 6; // 30度
+	double angle_y = M_PI / 6; // 30度
+	// より適切なスケール計算
+	scale = fmin((fdf->win_width / (fdf->map.width * sqrt(2))), (fdf->win_height
+				/ (fdf->map.height * sqrt(2)))) * 0.7;
+	// 座標変換（より正確な変換）
+	projected_x = (x - fdf->map.width / 2.0) * scale;
+	projected_y = (y - fdf->map.height / 2.0) * scale;
+	double projected_z = z * (scale * 0.5); // z軸のスケールを調整
 	// 等角投影の計算
-	p.x = (x - y) * cos(ISO_ANGLE_X);
-	p.y = (x + y) * sin(ISO_ANGLE_Y) - z;
-	// ウィンドウの中心に配置
+	p.x = (projected_x - projected_y) * cos(angle_x);
+	p.y = ((projected_x + projected_y) * sin(angle_y) - projected_z);
+	// 画面中央に配置
 	p.x += fdf->win_width / 2;
 	p.y += fdf->win_height / 2;
 	return (p);
 }
 
+void	my_mlx_pixel_put(t_img *img, int x, int y, int color)
+{
+	char	*dst;
+
+	if (x >= 0 && x <= WIN_WIDTH && y >= 0 && y <= WIN_HEIGHT)
+	{
+		dst = img->addr + (y * img->size_line + x * (img->bpp / 8));
+		*(unsigned int *)dst = color;
+	}
+}
 bool	fdf_draw(t_fdf *fdf)
 {
 	int		x;
@@ -59,6 +73,10 @@ bool	fdf_draw(t_fdf *fdf)
 		x = 0;
 		while (x < fdf->map.width)
 		{
+			printf("width: %d, height: %d\n", fdf->map.width, fdf->map.height);
+			// debug
+			printf("x: %d, y: %d\n", x, y);
+			// debug
 			p0 = iso_projection(x, y, fdf->map.points[y][x].z, fdf);
 			if (x < fdf->map.width - 1)
 			{
@@ -80,49 +98,34 @@ bool	fdf_draw(t_fdf *fdf)
 	return (true);
 }
 
-void	my_mlx_pixel_put(t_img *img, int x, int y, int color)
-{
-	char	*dst;
-
-	if (x >= 0 && x < WIN_WIDTH && y >= 0 && y < WIN_HEIGHT)
-	{
-		dst = img->addr + (y * img->size_line + x * (img->bpp / 8));
-		*(unsigned int *)dst = color;
-	}
-}
-
 void	draw_line_to_image(t_img *img, t_point p0, t_point p1, int color)
 {
-	int dx;
-	int dy;
-	int sx;
-	int sy;
-	int err;
-	int e2;
-	t_point current;
+	t_line_data line;
 
-	dx = abs(p1.x - p0.x);
-	dy = abs(p1.y - p0.y);
-	sx = p0.x < p1.x ? 1 : -1;
-	sy = p0.y < p1.y ? 1 : -1;
-	err = (dx > dy ? dx : -dy) / 2;
-	current = p0;
+	line.dx = abs(p1.x - p0.x);
+	line.dy = abs(p1.y - p0.y);
+	line.sx = p0.x < p1.x ? 1 : -1;
+	line.sy = p0.y < p1.y ? 1 : -1;
+	line.error = (line.dx > line.dy ? line.dx : -line.dy) / 2;
+	line.current = p0;
 
 	while (1)
 	{
-		my_mlx_pixel_put(img, current.x, current.y, color);
-		if (current.x == p1.x && current.y == p1.y)
+		if (line.current.x >= 0 && line.current.x < WIN_WIDTH
+			&& line.current.y >= 0 && line.current.y < WIN_HEIGHT)
+			my_mlx_pixel_put(img, line.current.x, line.current.y, color);
+		if (line.current.x == p1.x && line.current.y == p1.y)
 			break ;
-		e2 = err;
-		if (e2 > -dx)
+		line.error2 = line.error;
+		if (line.error2 > -line.dx)
 		{
-			err -= dy;
-			current.x += sx;
+			line.error -= line.dy;
+			line.current.x += line.sx;
 		}
-		if (e2 < dy)
+		if (line.error2 < line.dy)
 		{
-			err += dx;
-			current.y += sy;
+			line.error += line.dx;
+			line.current.y += line.sy;
 		}
 	}
 }

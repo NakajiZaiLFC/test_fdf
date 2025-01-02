@@ -6,7 +6,7 @@
 /*   By: snakajim <snakajim@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/01 15:48:23 by snakajim          #+#    #+#             */
-/*   Updated: 2025/01/02 15:09:53 by snakajim         ###   ########.fr       */
+/*   Updated: 2025/01/02 17:57:29 by snakajim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,10 +21,19 @@ bool	fdf_init(int ac, char *av[], t_fdf *fdf)
 		return (ft_printf("Error: invalid number of arguments\n"), false);
 	if (ft_strlncmp(av[1], ".fdf", 4) != 0)
 		return (ft_printf("Error: invalid file name\n"), false);
+	if (open(av[1], O_RDONLY) < 0)
+		return (ft_printf("Error: can't read fdf file\n"), false);
 	if (!_create_map(av[1], fdf))
-		return (fdf_free(fdf), false);
+		return (false);
 	if (!make_mlx_window(fdf))
-		return (fdf_free(fdf), false);
+		return (false);
+	// for (int i = 0; i < fdf->map.height; i++)
+	// {
+	// 	for (int j = 0; j < fdf->map.width; j++)
+	// 		printf("x: %d, y: %d, z: %d, color: %d\n", fdf->map.points[i][j].x,
+	// 			fdf->map.points[i][j].y, fdf->map.points[i][j].z,
+	// 			fdf->map.points[i][j].color);
+	// }
 	return (true);
 }
 
@@ -83,7 +92,7 @@ static bool	_get_map_size(char *file_name, int *width, int *height)
 	if (fd < 0)
 		return (false);
 	line = get_next_line(fd);
-	while (line)
+	while (line != NULL)
 	{
 		if (*width == 0)
 			*width = _count_width(line);

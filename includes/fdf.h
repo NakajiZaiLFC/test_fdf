@@ -4,7 +4,10 @@
 # define ESC 65307
 # define ISO_ANGLE_X 0.523599
 # define ISO_ANGLE_Y 0.523599
+# define M_PI 3.141592
 # define SCALE 20
+# define WIN_WIDTH 1920
+# define WIN_HEIGHT 1080
 
 # include "../ft_printf/include/ft_printf.h"
 # include "../minilibx/mlx.h"
@@ -40,6 +43,17 @@ typedef struct s_map
 	int		height;
 	t_point	**points;
 }			t_map;
+
+typedef struct s_line_data
+{
+	int		dx;
+	int		dy;
+	int		sx;
+	int		sy;
+	int		error;
+	int		error2;
+	t_point	current;
+}			t_line_data;
 
 typedef struct s_fdf
 {

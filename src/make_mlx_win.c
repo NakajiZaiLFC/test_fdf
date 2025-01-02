@@ -6,7 +6,7 @@
 /*   By: snakajim <snakajim@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/01 15:48:50 by snakajim          #+#    #+#             */
-/*   Updated: 2025/01/02 14:55:21 by snakajim         ###   ########.fr       */
+/*   Updated: 2025/01/02 16:46:18 by snakajim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 
 bool	make_mlx_window(t_fdf *fdf)
 {
-	fdf->win_width = 1920;
-	fdf->win_height = 1080;
+	fdf->win_width = WIN_WIDTH;
+	fdf->win_height = WIN_HEIGHT;
 	fdf->mlx_ptr = mlx_init();
 	if (!fdf->mlx_ptr)
 		return (false);

@@ -20,12 +20,12 @@ GNL_SRC = 	get_next_line.c \
             get_next_line_utils.c
 
 FDF_SRC =	main.c \
-            fdf_draw.c \
             fdf_free.c \
             fdf_init.c \
             fdf_utils.c \
             hook.c \
 			fdf_set.c \
+			fdf_draw_image.c \
             make_mlx_win.c
 OBJ_DIR = 	obj/
 FDF_OBJ = 	$(addprefix $(OBJ_DIR), $(FDF_SRC:.c=.o))
