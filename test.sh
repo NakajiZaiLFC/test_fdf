@@ -1,3 +1,21 @@
 make
 valgrind -q --leak-check=full --show-leak-kinds=all ./fdf maps/test_maps/10-70.fdf
 valgrind -q --leak-check=full --show-leak-kinds=all ./fdf maps/test_maps/20-60.fdf
+valgrind -q --leak-check=full --show-leak-kinds=all ./fdf maps/test_maps/42.fdf
+valgrind -q --leak-check=full --show-leak-kinds=all ./fdf maps/test_maps/50-4.fdf
+valgrind -q --leak-check=full --show-leak-kinds=all ./fdf maps/test_maps/100-6.fdf
+valgrind -q --leak-check=full --show-leak-kinds=all ./fdf maps/test_maps/basictest.fdf
+valgrind -q --leak-check=full --show-leak-kinds=all ./fdf maps/test_maps/elem-col.fdf
+valgrind -q --leak-check=full --show-leak-kinds=all ./fdf maps/test_maps/elem-fract.fdf
+valgrind -q --leak-check=full --show-leak-kinds=all ./fdf maps/test_maps/elem.fdf
+valgrind -q --leak-check=full --show-leak-kinds=all ./fdf maps/test_maps/elem2.fdf
+valgrind -q --leak-check=full --show-leak-kinds=all ./fdf maps/test_maps/julia.fdf
+valgrind -q --leak-check=full --show-leak-kinds=all ./fdf maps/test_maps/mars.fdf
+valgrind -q --leak-check=full --show-leak-kinds=all ./fdf maps/test_maps/pentenegpos.fdf
+valgrind -q --leak-check=full --show-leak-kinds=all ./fdf maps/test_maps/plat.fdf
+valgrind -q --leak-check=full --show-leak-kinds=all ./fdf maps/test_maps/pnp_flat.fdf
+valgrind -q --leak-check=full --show-leak-kinds=all ./fdf maps/test_maps/pylone.fdf
+valgrind -q --leak-check=full --show-leak-kinds=all ./fdf maps/test_maps/pyra.fdf
+valgrind -q --leak-check=full --show-leak-kinds=all ./fdf maps/test_maps/pyramide.fdf
+valgrind -q --leak-check=full --show-leak-kinds=all ./fdf maps/test_maps/t1.fdf
+valgrind -q --leak-check=full --show-leak-kinds=all ./fdf maps/test_maps/t2.fdf
