@@ -6,7 +6,7 @@
 /*   By: snakajim <snakajim@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/01 15:48:23 by snakajim          #+#    #+#             */
-/*   Updated: 2025/01/02 13:46:07 by snakajim         ###   ########.fr       */
+/*   Updated: 2025/01/02 13:57:44 by snakajim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,17 +56,6 @@ static bool	_create_map(char *file_name, t_fdf *fdf)
 	}
 	if (!_set_points_info(file_name, &fdf->map))
 		return (false);
-	for (int i = 0; i < fdf->map.height; i++)
-	{
-		for (int j = 0; j < fdf->map.width; j++)
-		{
-			printf("points[%d][%d].x: %d\n", i, j, fdf->map.points[i][j].x);
-			printf("points[%d][%d].y: %d\n", i, j, fdf->map.points[i][j].y);
-			printf("points[%d][%d].z: %d\n", i, j, fdf->map.points[i][j].z);
-			printf("points[%d][%d].color: %d\n", i, j,
-				fdf->map.points[i][j].color);
-		}
-	}
 	return (true);
 }
 
