@@ -1,10 +1,20 @@
-
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   fdf_free.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: snakajim <snakajim@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/01/01 15:48:28 by snakajim          #+#    #+#             */
+/*   Updated: 2025/01/01 15:48:29 by snakajim         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "../includes/fdf.h"
 
-void free_split(char **split)
+void	free_split(char **split)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (split[i])
@@ -12,7 +22,7 @@ void free_split(char **split)
 	free(split);
 }
 
-void fdf_free(t_fdf *fdf)
+void	fdf_free(t_fdf *fdf)
 {
 	int i;
 
