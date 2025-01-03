@@ -6,7 +6,7 @@
 /*   By: snakajim <snakajim@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/01 15:48:23 by snakajim          #+#    #+#             */
-/*   Updated: 2025/01/02 20:20:11 by snakajim         ###   ########.fr       */
+/*   Updated: 2025/01/03 16:41:18 by snakajim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,6 @@ static bool	_create_map(char *file_name, t_fdf *fdf)
 	i = 0;
 	if (!_get_map_size(file_name, &fdf->map.width, &fdf->map.height))
 		return (false);
-	printf("test\n");
 	fdf->map.points = (t_point **)malloc(sizeof(t_point *) * fdf->map.height
 			+ 1);
 	if (!fdf->map.points)
@@ -57,15 +56,38 @@ static int	_count_width(char *line)
 {
 	char	**split_line;
 	int		width;
+	int		len;
 
 	width = 0;
 	split_line = ft_split(line, ' ');
 	if (!split_line)
 		return (0);
-	while (split_line[width] != NULL)
+	while (split_line[width])
+	{
+		len = ft_strlen(split_line[width]);
+		if (len > 0 && split_line[width][len - 1] == '\n')
+		{
+			split_line[width][len - 1] = '\0';
+			if (split_line[width][0] == '\0')
+				break ;
+		}
 		width++;
+	}
 	free_split(split_line);
 	return (width);
+}
+
+static bool	is_empty_line(char *line)
+{
+	if (line == NULL)
+		return (true);
+	while (*line)
+	{
+		if (*line != ' ' && *line != '\t' && *line != '\n')
+			return (false);
+		line++;
+	}
+	return (true);
 }
 
 static bool	_get_map_size(char *file_name, int *width, int *height)
@@ -83,16 +105,13 @@ static bool	_get_map_size(char *file_name, int *width, int *height)
 	{
 		if (*width == 0)
 			*width = _count_width(line);
-		else if (*width != _count_width(line))
-		{
-			free(line);
-			close(fd);
-			return (false);
-		}
+		if (*width != _count_width(line))
+			return (free(line), close(fd), false);
+		if (is_empty_line(line))
+			return (free(line), close(fd), false);
 		(*height)++;
 		free(line);
 		line = get_next_line(fd);
 	}
-	close(fd);
-	return (true);
+	return (close(fd), true);
 }

@@ -26,7 +26,9 @@ FDF_SRC =	main.c \
             hook.c \
 			fdf_set.c \
 			fdf_draw_image.c \
+			fdf_calculate.c \
             make_mlx_win.c
+
 OBJ_DIR = 	obj/
 FDF_OBJ = 	$(addprefix $(OBJ_DIR), $(FDF_SRC:.c=.o))
 GNL_OBJ = 	$(addprefix $(OBJ_DIR), $(GNL_SRC:.c=.o))

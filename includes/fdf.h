@@ -6,7 +6,7 @@
 /*   By: snakajim <snakajim@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/02 20:19:31 by snakajim          #+#    #+#             */
-/*   Updated: 2025/01/02 20:19:32 by snakajim         ###   ########.fr       */
+/*   Updated: 2025/01/03 17:16:03 by snakajim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,22 @@ typedef struct s_img
 	int		size_line;
 	int		endian;
 }			t_img;
+
+typedef struct s_plane
+{
+	int		x;
+	int		y;
+}			t_plane;
+
+typedef struct s_iso_param
+{
+	double	scale;
+	double	angle_x;
+	double	angle_y;
+	double	projected_x;
+	double	projected_y;
+	double	projected_z;
+}			t_iso_param;
 
 typedef struct s_point
 {
@@ -77,9 +93,13 @@ typedef struct s_fdf
 	t_map	map;
 }			t_fdf;
 
+void		my_mlx_pixel_put(t_img *img, int x, int y, int color);
+t_point		iso_projection(int x, int y, int z, t_fdf *fdf);
+void		init_line_data(t_line_data *line, t_point p0, t_point p1);
+void		update_line_position(t_line_data *line);
 bool		fdf_init(int ac, char *av[], t_fdf *fdf);
 int			close_window(t_fdf *fdf);
-bool		fdf_draw(t_fdf *fdf);
+void		fdf_draw(t_fdf *fdf, int x, int y);
 bool		set_hooks(t_fdf *fdf);
 bool		set_points_info(char *file_name, t_map *map);
 void		free_split(char **split);
@@ -91,5 +111,6 @@ void		fdf_free(t_fdf *fdf);
 void		my_mlx_pixel_put(t_img *img, int x, int y, int color);
 void		draw_line_to_image(t_img *img, t_point p0, t_point p1, int color);
 void		mlx_free(t_fdf *fdf);
+void		draw_line_to_image(t_img *img, t_point p0, t_point p1, int color);
 void		err_fdf_free(t_fdf *fdf);
 #endif
